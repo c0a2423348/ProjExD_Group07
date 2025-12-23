@@ -397,6 +397,9 @@ def main():
 
     clock = pg.time.Clock()
     fry_count = 3
+
+    strt_ms = pg.time.get_ticks()
+
     
     while True:
         key_lst = pg.key.get_pressed()
@@ -481,6 +484,16 @@ def main():
             text = font.render("CLEAR!", True, (0, 255, 0))
             text_rect = text.get_rect(center=(WIDTH//2, HEIGHT//2))
             screen.blit(text, text_rect)
+            ms = pg.time.get_ticks()-strt_ms
+            total = ms//1000
+            minutes = total//60
+            second = total%60
+            time_text=f"{minutes:02d}:{second:02d}"
+            #経過時間描画
+            time_font=pg.font.Font(None,50)
+            time_surf = time_font.render(f"Clear time:{time_text}", True, (255, 255, 255))
+            time_rect = time_surf.get_rect(center=((WIDTH//2, text_rect.centery + 60)))
+            screen.blit(time_surf,time_rect)
             pg.display.update()
             time.sleep(3)
             return
@@ -492,7 +505,7 @@ def main():
         score.update(screen)
         
         pg.display.update()
-        clock.tick(50)
+        clock.tick(100)
 
 
 if __name__ == "__main__":
